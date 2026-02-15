@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados - Asteroides Peligrosos</title>
+    <link rel="stylesheet" th:href="@{/css/resultados.css}">
+</head>
+
+<body>
+<main class="contenedor">
+
+    <header class="cabecera">
+        <h1>Resultados</h1>
+        <p class="sub">
+            Fecha consultada:
+            <span class="fecha" th:text="${fechaConsultada}"></span>
+        </p>
+
+        <a class="btn-volver" th:href="@{/}">Volver a consultar</a>
+    </header>
+
+    <!-- Mensaje si no hay peligrosos -->
+    <section class="mensaje" th:if="${asteroides == null || #lists.isEmpty(asteroides)}">
+        No se han encontrado asteroides potencialmente peligrosos para esta fecha.
+    </section>
+
+    <!-- Tabla si hay resultados -->
+    <section class="tabla-wrap" th:if="${asteroides != null && !#lists.isEmpty(asteroides)}">
+        <table class="tabla">
+            <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Diámetro máx (m)</th>
+                <th>Distancia mínima (km)</th>
+                <th>Velocidad (km/h)</th>
+                <th>¿Peligroso?</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="a : ${asteroides}">
+                <td th:text="${a.name}">480858 (2001 PT9)</td>
+
+                <td th:text="${#numbers.formatDecimal(a.diameterMaxMeters, 1, 2)}">
+                    381.98
+                </td>
+
+                <td th:text="${a.missDistanceKm}">
+                    12722855.42
+                </td>
+
+                <td th:text="${a.velocityKmh}">
+                    38345.78
+                </td>
+
+                <td>
+          <span class="badge"
+                th:classappend="${a.potentiallyHazardous} ? ' badge-ok' : ' badge-no'"
+                th:text="${a.potentiallyHazardous}">
+            true
+          </span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+</main>
+</body>
+</html>
