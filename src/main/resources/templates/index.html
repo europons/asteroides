@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asteroides Peligrosos</title>
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+</head>
+<body>
+<main class="portada">
+    <section class="bienvenida">
+        <picture>
+            <img th:src="${picture}" alt="Imagen Google del usuario" loading="eager">
+        </picture>
+        <p>Bienvenido <strong th:text="${given_name}"></strong></p>
+        <form th:action="@{/logout}" method="post" class="logout-form">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <button type="submit" class="logout-btn">Cerrar sesión</button>
+        </form>
+    </section>
+    <section class="tarjeta">
+        <h1>Asteroides peligrosos</h1>
+        <p class="texto">En esta aplicación puedes consultar los asteroides que se aproximan a la Tierra en una fecha concreta. Solo tienes que seleccionar un día y el sistema mostrará la lista de objetos detectados por la NASA para esa fecha, con datos como el tamaño estimado, la distancia mínima a la Tierra, la velocidad del acercamiento y si se considera potencialmente peligroso.</p>
+        <form th:action="@{/buscar}" method="post" th:object="${busqueda}">
+            <input type="date" th:field="*{fecha}">
+            <button type="submit">Consultar asteroides</button>
+            <div class="mensaje error" th:if="${#fields.hasErrors('fecha')}" th:errors="*{fecha}"></div>
+        </form>
+    </section>
+</main>
+</body>
+</html>
