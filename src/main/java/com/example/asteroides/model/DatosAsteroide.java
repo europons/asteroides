@@ -4,13 +4,23 @@ import lombok.Data;
 
 import java.util.Map;
 
+/**
+ * Datos de un acercamiento concreto del asteroide a la Tierra.
+ */
 @Data
 public class DatosAsteroide {
+    /**
+     * Fecha y hora completas del acercamiento.
+     */
     private String close_approach_date_full;
 
-    // relative_velocity.kilometers_per_hour viene como String en el JSON
+    /**
+     * Bloque de velocidad relativa (en el JSON llega como texto).
+     */
     private Map<String, String> relative_velocity;
 
-    // miss_distance.kilometers viene como String en el JSON
+    /**
+     * Bloque de distancia mínima (en el JSON llega como texto).
+     */
     private Map<String, String> miss_distance;
 }

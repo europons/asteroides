@@ -11,15 +11,32 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Servicio que consulta datos y los adapta para mostrarlos en pantalla.
+ */
 @Service
 public class AsteroideService {
 
+    /**
+     * Cliente encargado de hablar con la API de la NASA.
+     */
     private final NeowsClient neowsClient;
 
+    /**
+     * Crea el servicio con su cliente externo.
+     *
+     * @param neowsClient cliente para peticiones a la NASA
+     */
     public AsteroideService(NeowsClient neowsClient) {
         this.neowsClient = neowsClient;
     }
 
+    /**
+     * Devuelve solo los asteroides peligrosos de la fecha indicada.
+     *
+     * @param fecha día que se quiere consultar
+     * @return lista preparada para mostrar en la vista
+     */
     public List<AsteroideVista> obtenerAsteroides(LocalDate fecha) {
         AsteroideResponse response = neowsClient.obtenerAsteroides(fecha);
         String fechaString = fecha.toString();
@@ -32,6 +49,12 @@ public class AsteroideService {
                 .toList();
     }
 
+    /**
+     * Convierte un asteroide recibido de la API en un formato simple para la vista.
+     *
+     * @param asteroide asteroide original de la API
+     * @return asteroide adaptado para mostrar
+     */
     private AsteroideVista toView(Asteroide asteroide) {
         AsteroideVista asteroideVista = new AsteroideVista();
         asteroideVista.setId(asteroide.getId());

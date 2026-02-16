@@ -22,15 +22,34 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Controlador web para mostrar formularios, resultados y perfil de usuario.
+ */
 @Controller
 public class AsteroideController {
 
+    /**
+     * Servicio que contiene la lógica de negocio de asteroides.
+     */
     private final AsteroideService servicioAsteroide;
 
+    /**
+     * Crea el controlador con su servicio principal.
+     *
+     * @param servicioAsteroide servicio para consultar asteroides
+     */
     public AsteroideController(AsteroideService servicioAsteroide) {
         this.servicioAsteroide = servicioAsteroide;
     }
 
+    /**
+     * Muestra la pantalla principal con el formulario y el historial guardado.
+     *
+     * @param user usuario autenticado
+     * @param model datos que se envían a la vista
+     * @param session sesión HTTP para leer historial
+     * @return nombre de la plantilla principal
+     */
     @GetMapping("/")
     public String inicio(@AuthenticationPrincipal OAuth2User user, Model model, HttpSession session) {
 
@@ -53,6 +72,17 @@ public class AsteroideController {
         return "index";
     }
 
+    /**
+     * Procesa la búsqueda de asteroides por fecha.
+     *
+     * @param formularioRequest datos del formulario
+     * @param errores posibles errores de validación
+     * @param user usuario autenticado
+     * @param model datos de la vista
+     * @param redirectAttributes datos temporales para la redirección
+     * @param session sesión HTTP para guardar historial
+     * @return vista de origen o redirección a resultados
+     */
     @PostMapping("/buscar")
     public String buscar(
             @Valid @ModelAttribute("busqueda") FormularioRequest formularioRequest,
@@ -97,6 +127,12 @@ public class AsteroideController {
         return "index";
     }
 
+    /**
+     * Añade datos básicos del usuario al modelo si existe sesión iniciada.
+     *
+     * @param user usuario autenticado
+     * @param model datos de la vista
+     */
     private void addUserAttributes(OAuth2User user, Model model) {
         if (user != null) {
             model.addAttribute("given_name", user.getAttribute("given_name"));
@@ -105,16 +141,32 @@ public class AsteroideController {
         }
     }
 
+    /**
+     * Muestra la pantalla de resultados.
+     *
+     * @return nombre de la plantilla de resultados
+     */
     @GetMapping("/resultados")
     public String resultados() {
         return "resultados";
     }
 
+    /**
+     * Muestra la pantalla de login.
+     *
+     * @return nombre de la plantilla de login
+     */
     @GetMapping("/login")
     public String login() {
         return "login";
     }
 
+    /**
+     * Devuelve en JSON los datos del usuario autenticado.
+     *
+     * @param user usuario autenticado
+     * @return mapa con los atributos del perfil
+     */
     @GetMapping("/profile")
     @ResponseBody
     public Map<String, Object> profile(@AuthenticationPrincipal OAuth2User user) {

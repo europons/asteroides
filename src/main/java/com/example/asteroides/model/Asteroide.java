@@ -6,6 +6,9 @@ import lombok.Data;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Representa un asteroide con sus propiedades relevantes.
+ */
 @Data
 public class Asteroide {
 
