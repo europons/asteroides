@@ -2,7 +2,9 @@ package com.example.asteroides.controller;
 
 import com.example.asteroides.dto.FormularioRequest;
 import com.example.asteroides.model.AsteroideVista;
+import com.example.asteroides.model.ConsultaHistorial;
 import com.example.asteroides.service.AsteroideService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +32,7 @@ public class AsteroideController {
     }
 
     @GetMapping("/")
-    public String inicio(@AuthenticationPrincipal OAuth2User user, Model model) {
+    public String inicio(@AuthenticationPrincipal OAuth2User user, Model model, HttpSession session) {
 
         if (!model.containsAttribute("busqueda")) {
             model.addAttribute("busqueda", new FormularioRequest());
@@ -41,6 +44,12 @@ public class AsteroideController {
             model.addAttribute("picture", user.getAttribute("picture"));
         }
 
+        // Pasar historial a la vista
+        List<ConsultaHistorial> historial = (List<ConsultaHistorial>) session.getAttribute("historial");
+        if (historial != null) {
+            model.addAttribute("historial", historial);
+        }
+
         return "index";
     }
 
@@ -50,7 +59,8 @@ public class AsteroideController {
             BindingResult errores,
             @AuthenticationPrincipal OAuth2User user,
             Model model,
-            RedirectAttributes redirectAttributes
+            RedirectAttributes redirectAttributes,
+            HttpSession session
     ) {
         if (errores.hasErrors()) {
             addUserAttributes(user, model);
@@ -62,6 +72,15 @@ public class AsteroideController {
 
         try {
             List<AsteroideVista> listaAsteroides = servicioAsteroide.obtenerAsteroides(fecha);
+
+            // Guardar en historial
+            List<ConsultaHistorial> historial = (List<ConsultaHistorial>) session.getAttribute("historial");
+            if (historial == null) {
+                historial = new ArrayList<>();
+            }
+            historial.add(new ConsultaHistorial(fechaFormateada, listaAsteroides.size()));
+            session.setAttribute("historial", historial);
+
             redirectAttributes.addFlashAttribute("asteroides", listaAsteroides);
             redirectAttributes.addFlashAttribute("fechaConsultada", fechaFormateada);
             return "redirect:/resultados";
