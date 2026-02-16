@@ -99,3 +99,15 @@ La aplicación requiere las siguientes variables de entorno:
 
 ### Historial de consultas
 ![Historial](capturas/historial.png)
+
+### Error al no poner fecha
+![Error fecha](capturas/error-fecha.png)
+
+### Error API no disponible
+![Error API](capturas/error-api.png)
+
+### Vista móvil login
+![Vista móvil login](capturas/vista-movil-login.png)
+
+### Vista móvil
+![Vista móvil](capturas/vista-movil.png)
