@@ -18,6 +18,7 @@
             <button type="submit" class="logout-btn">Cerrar sesión</button>
         </form>
     </section>
+
     <section class="tarjeta">
         <h1>Asteroides peligrosos</h1>
         <p class="texto">En esta aplicación puedes consultar los asteroides que se aproximan a la Tierra en una fecha concreta. Solo tienes que seleccionar un día y el sistema mostrará la lista de objetos detectados por la NASA para esa fecha, con datos como el tamaño estimado, la distancia mínima a la Tierra, la velocidad del acercamiento y si se considera potencialmente peligroso.</p>
@@ -26,6 +27,24 @@
             <button type="submit">Consultar asteroides</button>
             <div class="mensaje error" th:if="${#fields.hasErrors('fecha')}" th:errors="*{fecha}"></div>
         </form>
+    </section>
+
+    <section class="tarjeta" th:if="${historial != null && !#lists.isEmpty(historial)}">
+        <h2>Historial de consultas</h2>
+        <table class="tabla">
+            <thead>
+            <tr>
+                <th>Fecha consultada</th>
+                <th>Asteroides peligrosos</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="h : ${historial}">
+                <td th:text="${h.fecha}"></td>
+                <td th:text="${h.asteroidesEncontrados}"></td>
+            </tr>
+            </tbody>
+        </table>
     </section>
 </main>
 </body>

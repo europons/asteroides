@@ -18,7 +18,8 @@
 }
 
 *{ box-sizing:border-box; }
-html,body{ height:100%; }
+html{ height:100%; }
+body{ min-height:100%; }
 body{
   margin:0;
   font-family: var(--font-body);
@@ -28,6 +29,7 @@ body{
     radial-gradient(900px 700px at 80% 35%, rgba(255,120,220,.12), transparent 55%),
     radial-gradient(900px 700px at 50% 100%, rgba(60,255,200,.08), transparent 60%),
     linear-gradient(160deg, var(--bg1), var(--bg2));
+  background-attachment: fixed;
 }
 
 /* Layout principal */
@@ -195,6 +197,52 @@ button[type="submit"]:active{ transform: translateY(1px); }
   background: rgba(255,90,107,.12);
   border-color: rgba(255,90,107,.35);
   color: #ffd7dc;
+}
+
+/* ── Historial ── */
+.tarjeta h2 {
+  margin: 0 0 14px;
+  font-family: var(--font-title);
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: .2px;
+  text-align: center;
+}
+
+.tarjeta + .tarjeta {
+  margin-top: 18px;
+}
+
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla thead th {
+  text-align: left;
+  font-size: 12px;
+  letter-spacing: .25px;
+  text-transform: uppercase;
+  color: rgba(234,240,255,.7);
+  background: rgba(8,12,24,.55);
+  border-bottom: 1px solid rgba(255,255,255,.12);
+  padding: 14px;
+  white-space: nowrap;
+}
+
+.tabla tbody td {
+  padding: 14px;
+  border-bottom: 1px solid rgba(255,255,255,.10);
+  color: rgba(234,240,255,.9);
+  font-size: 14px;
+}
+
+.tabla tbody tr:hover td {
+  background: rgba(255,255,255,.04);
+}
+
+.tabla tbody tr:last-child td {
+  border-bottom: none;
 }
 
 /* Responsive */
